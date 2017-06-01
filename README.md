@@ -51,13 +51,32 @@ for instructions and the project rubric.
 
 ## Implementation
 
-The final parameters were chosen manually as it was not easy to use twiddle etc. since the car would die most of the time in the simulator and feedback was difficult to obtain.
-`P coeff = 0.1 `
-`I coeff  = 0`
-`D coeff = 0.8`
+The PID controller is comprised of 3 parts. The first term (Kp) is proportional to the cross track error (cte) between 
+the required target value and the actual value. The second term (Kd) is proportional to the derivative of the error 
+and the last term (Ki) is proportional to the integral of the error.
 
-The I coefficient was chosen to be 0 as the car running in the simulator did not seem to have any drift.
+The selection of these 3 coefficients to derive the total correction is what matters:
+* Proportional Coefficient
+    If Kp is too large, this can cause the system to start to oscillate due to too much input being applied.
+    When Kp is small, the vehicle will slowly turn in the correct direction to reduce the error.
+
+* Differential Coefficient
+    Kd controls the rate of change of the error. Because of this, it can be used to either dampen or exaggerate
+     the effects of the proportional term. An appropriate value can be used to smooth the output.
+ 
+* Integral coefficient
+    Ki is used to counter the steady-state error or the drift in built in the vehicle. If there is no apparent drift 
+    then this component would keep increasing and would cause larger changes to the correction.
+
+The final parameters were chosen manually through different experiments as it was not easy to use twiddle etc. since 
+the car would die most of the time in the simulator and feedback would be difficult to obtain.
+`
+P coeff = 0.1
+I coeff  = 0
+D coeff = 0.8`
+
 The P coefficient was chosen to minimize the oscillations from one edge to the other.
 The D coefficient was chosen so as the system recovers smoothly.
+The I coefficient was chosen to be 0 as the car running in the simulator did not seem to have any drift.
 
 ![PID Controller](PID_Controller.mp4)
